@@ -1,0 +1,5 @@
+`define WORD_LEN 8
+`define XTAL_CLK 7372800
+`define BAUD 2400
+`define CW (`XTAL_CLK / ((`BAUD * 2) * 16))
+`define CWR $clog2(`CW)
