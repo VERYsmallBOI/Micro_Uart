@@ -1,6 +1,6 @@
 `include "inc.h"
 
-module baud (
+module buad (
     input rst,
     input clk,
     output reg clko
@@ -8,7 +8,7 @@ module baud (
 
     reg [`CWR-1:0] clocker;
 
-    always @(posedge clk, posedge rst) begin
+    always @(posedge clk, negedge rst) begin
         if (rst) begin
             clocker <= 0;
             clko    <= 0;
