@@ -1,3 +1,22 @@
+module syncronizer (clk,rst,inp,op);
+input clk,rst,inp;
+output reg op;
+reg inter;
+
+always @(posedge clk,posedge rst) begin
+    if(rst)
+    begin
+        op<=1;
+        inter<=1;
+    end
+    else 
+    begin
+        op<=inter;
+        inter<=inp;
+end
+end
+endmodule
+
 module u_rec(clk, rst, ready, busy, op, inp);
     input inp, clk, rst;
     output ready, busy;
