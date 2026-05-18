@@ -3,8 +3,8 @@ input clk,rst,inp;
 output reg op;
 reg inter;
 
-always @(posedge clk,posedge rst) begin
-    if(rst)
+always @(posedge clk,negedge rst) begin
+    if(!rst)
     begin
         op<=1;
         inter<=1;
@@ -17,9 +17,9 @@ end
 end
 endmodule
 
-module u_rec(clk, rst, ready, busy, op, inp);
+module receiver(clk, rst, ready, busy, op, inp);
     input inp, clk, rst;
-    output ready, busy;
+    output reg ready, busy;
     output reg [`WORD_LEN-1:0] op;
     
     reg [3:0] count;
@@ -30,10 +30,9 @@ module u_rec(clk, rst, ready, busy, op, inp);
 
     syncronizer s1(.clk(clk), .rst(rst), .inp(inp), .op(inp_s));
 
-    always @(posedge clk, posedge rst) begin
-        if (rst) begin
+    always @(posedge clk, negedge rst) begin
+        if (!rst) begin
             op     <= 0;
-            op1    <= 0;
             busy   <= 0;
             ready  <= 0;
             state  <= 0;

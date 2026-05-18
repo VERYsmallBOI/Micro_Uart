@@ -1,6 +1,6 @@
 `include "inc.h"
 
-module buad (
+module baud (
     input rst,
     input clk,
     output reg clko
