@@ -89,7 +89,7 @@ module receiver(clk, rst, ready, busy, op, inp);
                     ready  <= 0;
                     busy   <= 1;
                     if (&count) begin
-                        op1     <= {inp_s, op1[7:1]};
+                        op1     <= {inp_s, op1[`WORD_LEN-1:1]};
                         count  <= 0;
 
                         if (&countn) begin
