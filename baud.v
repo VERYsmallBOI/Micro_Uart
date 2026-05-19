@@ -9,7 +9,7 @@ module baud (
     reg [`CWR-1:0] clocker;
 
     always @(posedge clk, negedge rst) begin
-        if (rst) begin
+        if (!rst) begin
             clocker <= 0;
             clko    <= 0;
         end else begin

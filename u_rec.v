@@ -21,7 +21,8 @@ module receiver(clk, rst, ready, busy, op, inp);
     input inp, clk, rst;
     output reg ready, busy;
     output reg [`WORD_LEN-1:0] op;
-    
+    reg [`WORD_LEN-1:0] op1;
+
     reg [3:0] count;
     reg [`WLR-1:0] countn;
 
@@ -32,12 +33,14 @@ module receiver(clk, rst, ready, busy, op, inp);
 
     always @(posedge clk, negedge rst) begin
         if (!rst) begin
-            op     <= 0;
+            op1     <= 0;
             busy   <= 0;
             ready  <= 0;
             state  <= 0;
+            op<=0;
         end
         else begin
+            op<=op;
             case (state)
                 2'b0: begin
                     if (inp_s == 0) begin
@@ -45,27 +48,36 @@ module receiver(clk, rst, ready, busy, op, inp);
                         ready  <= 0;
                         busy   <= 1;
                         countn <= 0;
-                        op     <= 0;
+                        op1     <= 0;
                         count  <= 0;
                     end
                     else begin
-                        state  <= 1;
+                        state  <= 0;
                         ready  <= 1;
                         busy   <= 0;
                         countn <= 0;
-                        op     <= op;
+                        op1     <= op1;
                         count  <= 0;
                     end
                 end
 
                 2'b01: begin
-                    ready  <= 0;
-                    busy   <= 1;
-                    op     <= 0;
+                    
+                    op1     <= 0;
                     if (count == 5) begin
                         count  <= 0;
-                        state  <= 2;
                         countn <= 0;
+                        if(inp_s==0)begin
+                        state  <= 2;
+                        ready  <= 0;
+                        busy   <= 1;
+                        end
+                        else 
+                        begin
+                        state  <= 0;
+                        ready  <= 1;
+                        busy   <= 0;
+                        end
                     end
                     else begin
                         count  <= count + 1;
@@ -78,7 +90,7 @@ module receiver(clk, rst, ready, busy, op, inp);
                     ready  <= 0;
                     busy   <= 1;
                     if (&count) begin
-                        op     <= {inp_s, op[7:1]};
+                        op1     <= {inp_s, op1[7:1]};
                         count  <= 0;
 
                         if (&countn) begin
@@ -98,15 +110,23 @@ module receiver(clk, rst, ready, busy, op, inp);
                 end
 
                 2'b11: begin
-                    op     <= op;
+                    
                     if (&count) begin
+                        if(inp_s==1'b1) begin
+                            op<=op1;
+                        end
+                        else begin
+                        op<=op;
+                        end
                         count  <= 0;
                         state  <= 0;
                         countn <= 0;
                         ready  <= 1;
                         busy   <= 0;
+                        op1    <= 0;
                     end
                     else begin
+                        op1    <= op1;
                         count  <= count + 1;
                         state  <= 3;
                         ready  <= 0;
@@ -120,7 +140,7 @@ module receiver(clk, rst, ready, busy, op, inp);
                     ready  <= 0;
                     busy   <= 1;
                     countn <= 0;
-                    op     <= 0;
+                    op1     <= 0;
                     count  <= 0;
                 end
             endcase

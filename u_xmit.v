@@ -96,7 +96,7 @@ module transmitter(clk, rst, start, inp, op_done, op_data, op_active);
                 end
 
                 2'b11: begin
-                    if (&(count+1)) begin
+                    if (&(count+1'b1)) begin
                         op_done   <= 1;
                         count     <= 0;
                         if (start) begin
