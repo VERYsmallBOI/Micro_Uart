@@ -43,12 +43,12 @@ module receiver(clk, rst, ready, busy, op, inp);
             op<=op;
             case (state)
                 2'b0: begin
+                    op1     <= 0;
                     if (inp_s == 0) begin
                         state  <= 1;
                         ready  <= 0;
                         busy   <= 1;
                         countn <= 0;
-                        op1     <= 0;
                         count  <= 0;
                     end
                     else begin
@@ -56,7 +56,6 @@ module receiver(clk, rst, ready, busy, op, inp);
                         ready  <= 1;
                         busy   <= 0;
                         countn <= 0;
-                        op1     <= op1;
                         count  <= 0;
                     end
                 end
