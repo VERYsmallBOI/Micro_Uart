@@ -19,7 +19,7 @@ A parameterized Verilog implementation of a **Micro UART (Universal Asynchronous
 │   │   ├── u_xmit.v
 │   │   └── uart.v
 │   └── TestBench
-│       └── tESTBENCH.v
+│       └── TESTBENCH.v
 ```
 
 ---
