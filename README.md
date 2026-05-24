@@ -271,4 +271,3 @@ gtkwave dump.vcd
 
 # Author
 *TAMIL SELVAN E*
-Micro-UART Design and Verification Project.
